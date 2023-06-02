@@ -270,6 +270,13 @@ export interface MobileApplication {
   referenceType: 'latest' | 'version' | 'temporary'
 }
 
+export interface CookieSettings {
+  /** Whether to append or replace the original cookies. */
+  append?: boolean
+  /** Cookie header to add or replace (e.g. `name1=value1;name2=value2;`). */
+  value: string
+}
+
 export interface BaseConfigOverride {
   /** Disable certificate checks in Synthetic API tests. */
   allowInsecureCertificates?: boolean
@@ -279,7 +286,12 @@ export interface BaseConfigOverride {
   body?: string
   /** Content type for the data to send in an API test. */
   bodyType?: string
-  cookies?: string | {append?: boolean; value: string}
+  /**
+   * Use the provided string as a cookie header in an API or browser test (in addition or as a replacement).
+   * - If this is a string (e.g. `name1=value1;name2=value2;`), it is used to replace the original cookies.
+   * - If this is an object, it is used to either add to or replace the original cookies, depending on `append`.
+   */
+  cookies?: string | CookieSettings
   /** The maximum duration of steps in seconds for browser tests, which does not override individually set step timeouts. */
   defaultStepTimeout?: number
   /** A list of devices to run the browser test on. */
@@ -348,10 +360,12 @@ export enum ExecutionRule {
   SKIPPED = 'skipped',
 }
 
+export interface TestFile {
+  tests: TriggerConfig[]
+}
+
 export interface Suite {
-  content: {
-    tests: TriggerConfig[]
-  }
+  content: TestFile
   name?: string
 }
 
