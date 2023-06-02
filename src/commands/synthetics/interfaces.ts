@@ -317,7 +317,6 @@ export interface BaseConfigOverride {
   startUrl?: string
   /** The regex to modify the starting URL of the test (for browser and HTTP tests only), whether it was given by the original test or the configuration override `startUrl`. */
   startUrlSubstitutionRegex?: string
-  tunnel?: TunnelInfo
   /** The variables to replace in the test. This object should contain key as the name of the variable to replace and values as the new value of the variable to replace. */
   variables?: {[key: string]: string}
 }
@@ -329,6 +328,7 @@ export interface UserConfigOverride extends BaseConfigOverride {
 
 export interface ServerConfigOverride extends BaseConfigOverride {
   mobileApplication?: MobileApplication
+  tunnel?: TunnelInfo // Programmatically set with `tunnel.start()`.
 }
 
 export interface Payload {
