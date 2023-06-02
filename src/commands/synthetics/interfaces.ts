@@ -322,12 +322,14 @@ export interface BaseConfigOverride {
 }
 
 export interface UserConfigOverride extends BaseConfigOverride {
+  /** The ID of an application version to run a Synthetic mobile application test on. */
   mobileApplicationVersion?: string
+  /** Upload an application as a temporary version for a Synthetic mobile application test. */
   mobileApplicationVersionFilePath?: string
 }
 
 export interface ServerConfigOverride extends BaseConfigOverride {
-  mobileApplication?: MobileApplication
+  mobileApplication?: MobileApplication // Programmatically set with `overrideMobileConfig()`.
   tunnel?: TunnelInfo // Programmatically set with `tunnel.start()`.
 }
 
