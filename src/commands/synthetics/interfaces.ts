@@ -258,7 +258,9 @@ export interface Trigger {
 }
 
 export interface RetryConfig {
+  /** The number of attempts to perform in case of test failure. */
   count: number
+  /** The interval between attempts in milliseconds. */
   interval: number
 }
 
@@ -269,22 +271,42 @@ export interface MobileApplication {
 }
 
 export interface BaseConfigOverride {
+  /** Disable certificate checks in Synthetic API tests. */
   allowInsecureCertificates?: boolean
+  /** Credentials to provide if basic authentication is required. */
   basicAuth?: BasicAuthCredentials
+  /** Data to send in an API test. */
   body?: string
+  /** Content type for the data to send in an API test. */
   bodyType?: string
   cookies?: string | {append?: boolean; value: string}
+  /** The maximum duration of steps in seconds for browser tests, which does not override individually set step timeouts. */
   defaultStepTimeout?: number
+  /** A list of devices to run the browser test on. */
   deviceIds?: string[]
+  /**
+   * The execution rule for the test defines the behavior of the CLI in case of a failing test.
+   * - `blocking`: The CLI returns an error if the test fails.
+   * - `non_blocking`: The CLI only prints a warning if the test fails.
+   * - `skipped`: The test is not executed at all.
+   */
   executionRule?: ExecutionRule
+  /** Indicates whether or not to follow HTTP redirections in Synthetic API tests. */
   followRedirects?: boolean
+  /** The headers to replace in the test. This object should contain keys as the name of the header to replace and values as the new value of the header to replace. */
   headers?: {[key: string]: string}
+  /** A list of locations to run the test from. */
   locations?: string[]
+  /** The maximum duration in milliseconds of a test. If the execution exceeds this value, it is considered failed. */
   pollingTimeout?: number
+  /** The retry policy for the test. */
   retry?: RetryConfig
+  /** The new start URL to provide to the test. Variables specified in brackets (for example, `{{ EXAMPLE }}`) found in environment variables are replaced. */
   startUrl?: string
+  /** The regex to modify the starting URL of the test (for browser and HTTP tests only), whether it was given by the original test or the configuration override `startUrl`. */
   startUrlSubstitutionRegex?: string
   tunnel?: TunnelInfo
+  /** The variables to replace in the test. This object should contain key as the name of the variable to replace and values as the new value of the variable to replace. */
   variables?: {[key: string]: string}
 }
 
@@ -312,8 +334,11 @@ export interface BasicAuthCredentials {
   username: string
 }
 export interface TriggerConfig {
+  /** Overrides for this Synthetic test only. This takes precedence over all other overrides. */
   config: UserConfigOverride
+  /** Public ID of a test (e.g. `abc-def-ghi`), or its full URL (e.g. `https://app.datadoghq.com/synthetics/details/abc-def-ghi`). */
   id: string
+  /** Name of a test suite (for JUnit reports). */
   suite?: string
 }
 
