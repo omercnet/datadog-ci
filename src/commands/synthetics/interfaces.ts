@@ -408,19 +408,22 @@ export interface APIHelperConfig {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SyntheticsCIConfig extends APIHelperConfig {}
 
-export interface RunTestsCommandConfig extends SyntheticsCIConfig {
-  configPath: string
+export interface RunTestsLibConfig extends SyntheticsCIConfig {
   failOnCriticalErrors: boolean
   failOnMissingTests: boolean
   failOnTimeout: boolean
   files: string[]
   global: UserConfigOverride
-  locations: string[]
   pollingTimeout: number
-  publicIds: string[]
   subdomain: string
   testSearchQuery?: string
   tunnel: boolean
+}
+
+export interface RunTestsCommandConfig extends RunTestsLibConfig {
+  configPath: string
+  locations: string[]
+  publicIds: string[]
   variableStrings: string[]
 }
 
