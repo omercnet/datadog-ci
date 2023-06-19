@@ -399,9 +399,13 @@ export interface APIConfiguration {
 }
 
 export interface APIHelperConfig {
+  /** The API key used to query the Datadog API. */
   apiKey: string
+  /** The application key used to query the Datadog API. */
   appKey: string
+  /** The Datadog instance to which request is sent. */
   datadogSite: string
+  /** The proxy to be used for outgoing connections to Datadog. */
   proxy: ProxyConfiguration
 }
 
@@ -409,14 +413,23 @@ export interface APIHelperConfig {
 export interface SyntheticsCIConfig extends APIHelperConfig {}
 
 export interface RunTestsLibConfig extends SyntheticsCIConfig {
+  /** A boolean flag that fails the CI job if no tests were triggered, or results could not be fetched from Datadog. */
   failOnCriticalErrors: boolean
+  /** A boolean flag that fails the CI job if at least one specified test with a public ID is missing in a run (for example, if it has been deleted programmatically or on the Datadog site). */
   failOnMissingTests: boolean
+  /** A boolean flag that fails the CI job if at least one test exceeds the default test timeout. */
   failOnTimeout: boolean
+  /** Glob patterns to detect Synthetic test configuration files (their well-known name is `*.synthetics.json`). */
   files: string[]
+  /** Overrides for Synthetic tests applied to all tests. */
   global: UserConfigOverride
+  /** The duration (in milliseconds) after which polling for test results is stopped. */
   pollingTimeout: number
+  /** The name of the custom subdomain set to access your Datadog application. If the URL used to access Datadog is `myorg.datadoghq.com`, the `subdomain` value needs to be set to `myorg`. */
   subdomain: string
+  /** Search query to select which Synthetic tests to run. */
   testSearchQuery?: string
+  /** Use the Continuous Testing Tunnel to execute your test batch. */
   tunnel: boolean
 }
 
