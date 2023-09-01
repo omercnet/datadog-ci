@@ -270,13 +270,6 @@ export interface MobileApplication {
   referenceType: 'latest' | 'version' | 'temporary'
 }
 
-export interface CookieSettings {
-  /** Whether to append or replace the original cookies. */
-  append?: boolean
-  /** Cookie header to add or replace (e.g. `name1=value1;name2=value2;`). */
-  value: string
-}
-
 export interface BaseConfigOverride {
   /** Disable certificate checks in Synthetic API tests. */
   allowInsecureCertificates?: boolean
@@ -329,8 +322,7 @@ export interface UserConfigOverride extends BaseConfigOverride {
 }
 
 export interface ServerConfigOverride extends BaseConfigOverride {
-  mobileApplication?: MobileApplication // Programmatically set with `overrideMobileConfig()`.
-  tunnel?: TunnelInfo // Programmatically set with `tunnel.start()`.
+  mobileApplication?: MobileApplication
 }
 
 export interface Payload {
@@ -398,55 +390,31 @@ export interface APIConfiguration {
   proxyOpts: ProxyConfiguration
 }
 
-export interface APIHelperConfig {
-  /** The API key used to query the Datadog API. */
+export interface SyntheticsCIConfig {
   apiKey: string
   /** The application key used to query the Datadog API. */
   appKey: string
   /** The Datadog instance to which request is sent. */
   datadogSite: string
-  /** The proxy to be used for outgoing connections to Datadog. */
-  proxy: ProxyConfiguration
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SyntheticsCIConfig extends APIHelperConfig {}
-
-export interface RunTestsLibConfig extends SyntheticsCIConfig {
-  /** A boolean flag that fails the CI job if no tests were triggered, or results could not be fetched from Datadog. */
-  failOnCriticalErrors: boolean
-  /** A boolean flag that fails the CI job if at least one specified test with a public ID is missing in a run (for example, if it has been deleted programmatically or on the Datadog site). */
-  failOnMissingTests: boolean
-  /** A boolean flag that fails the CI job if at least one test exceeds the default test timeout. */
-  failOnTimeout: boolean
-  /** Glob patterns to detect Synthetic test configuration files (their well-known name is `*.synthetics.json`). */
   files: string[]
   /** Overrides for Synthetic tests applied to all tests. */
   global: UserConfigOverride
   /** The duration (in milliseconds) after which polling for test results is stopped. */
   pollingTimeout: number
-  /** The name of the custom subdomain set to access your Datadog application. If the URL used to access Datadog is `myorg.datadoghq.com`, the `subdomain` value needs to be set to `myorg`. */
+  proxy: ProxyConfiguration
+  publicIds: string[]
   subdomain: string
   /** Search query to select which Synthetic tests to run. */
   testSearchQuery?: string
   /** Use the Continuous Testing Tunnel to execute your test batch. */
   tunnel: boolean
-}
-
-export interface RunTestsCommandConfig extends RunTestsLibConfig {
-  configPath: string
-  locations: string[]
-  publicIds: string[]
   variableStrings: string[]
 }
 
-export type WrapperConfig = Partial<RunTestsCommandConfig>
-
-export interface UploadApplicationCommandConfig extends SyntheticsCIConfig {
-  mobileApplicationVersionFilePath?: string
-  mobileApplicationId?: string
-  versionName?: string
-  latest?: boolean
+export interface CommandConfig extends SyntheticsCIConfig {
+  failOnCriticalErrors: boolean
+  failOnMissingTests: boolean
+  failOnTimeout: boolean
 }
 export interface PresignedUrlResponse {
   file_name: string
